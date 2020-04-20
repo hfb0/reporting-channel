@@ -1,3 +1,5 @@
+import { GeocodeQuality } from './geocode-quality.enum';
+
 export interface LocationPayload {
   street: string;
   adminArea6: string;
@@ -12,7 +14,7 @@ export interface LocationPayload {
   adminArea1Type: string;
   postalCode: string;
   geocodeQualityCode: string;
-  geocodeQuality: string;
+  geocodeQuality: GeocodeQuality;
   dragPoint: boolean;
   sideOfStreet: string;
   linkId: string;
