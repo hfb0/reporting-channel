@@ -6,9 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
+  OneToMany,
 } from 'typeorm';
 import { randomBytes } from 'crypto';
 import * as argon2 from 'argon2';
+import { Denunciation } from 'src/denunciations/denunciation.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -38,6 +40,12 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(
+    () => Denunciation,
+    denunciation => denunciation.denunciator,
+  )
+  denunciations: Denunciation[];
 
   @BeforeInsert()
   // Criptografa senha
