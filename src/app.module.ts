@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { DenunciationsModule } from './denunciations/denunciations.module';
 import { AdressesModule } from './adresses/adresses.module';
 import { MapquestModule } from './mapquest/mapquest.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmErrorsInterceptor } from './interceptors/typeorm-errors.interceptor';
 
 @Module({
   imports: [
@@ -32,6 +34,12 @@ import { MapquestModule } from './mapquest/mapquest.module';
     MapquestModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TypeOrmErrorsInterceptor,
+    },
+    AppService,
+  ],
 })
 export class AppModule {}
