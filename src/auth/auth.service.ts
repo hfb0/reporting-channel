@@ -2,8 +2,9 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { UserNonConfidential } from './dto/user-nonconfidential.dto';
+import { UserNonConfidentialDto } from './dto/user-nonconfidential.dto';
 import { JwtPayload } from './jwt-payload.interface';
+import { LoggedUserDto } from './dto/logged-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
+
   async signIn(authCredentialsDto: AuthCredentialsDto) {
     const { email, password } = authCredentialsDto;
 
@@ -22,15 +24,16 @@ export class AuthService {
     const payload: JwtPayload = { id: user.id };
     const token = await this.generateToken(payload);
     const unconfidential = this.getOnlyNonConfidentialUserData(user);
+    const loggedUserDto = new LoggedUserDto(unconfidential, token);
 
-    return { user: unconfidential, token };
+    return loggedUserDto;
   }
 
   generateToken(payload: JwtPayload): Promise<string> {
     return this.jwtService.signAsync(payload);
   }
 
-  getOnlyNonConfidentialUserData(user): UserNonConfidential {
+  getOnlyNonConfidentialUserData(user): UserNonConfidentialDto {
     const unconfidential = {
       id: user.id,
       name: user.name,

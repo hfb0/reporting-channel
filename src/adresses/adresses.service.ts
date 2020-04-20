@@ -13,23 +13,24 @@ export class AdressesService {
     private mapquestService: MapquestService,
   ) {}
 
-  async create(createAddressDto: CreateAddressDto): Promise<Address> {
-    const address = this.adressesRepository.create(createAddressDto);
+  async findOrCreate(addressDto: CreateAddressDto): Promise<Address> {
+    // Procura no banco de dados
+    let addressDB = await this.adressesRepository.findOne({
+      where: addressDto,
+    });
 
-    return await address.save();
+    if (!addressDB) {
+      const address = this.adressesRepository.create(addressDto);
+      addressDB = await address.save();
+    }
+
+    return addressDB;
   }
 
   async getAddressByGeolocation(lat: number, lon: number): Promise<Address> {
+    // Procura na api maqquest
     const addressDto = await this.mapquestService.findByGeoCode(lat, lon);
 
-    // Procura no banco de dados
-    const addressDB = await this.adressesRepository.findOne({
-      where: addressDto,
-    });
-    if (addressDB) {
-      return addressDB;
-    }
-
-    return await this.create(addressDto);
+    return await this.findOrCreate(addressDto);
   }
 }

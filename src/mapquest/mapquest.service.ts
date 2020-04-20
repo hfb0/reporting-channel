@@ -19,7 +19,7 @@ export class MapquestService {
     this.apiKey = process.env.MAP_API_KEY;
   }
 
-  async findByGeoCode(lat: number, lon: number) {
+  async findByGeoCode(lat: number, lon: number): Promise<CreateAddressDto> {
     const geoCodePathURL = 'geocoding/v1/reverse';
 
     const params: ParamsPayload = {

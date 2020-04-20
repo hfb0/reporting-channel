@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -33,13 +31,11 @@ import { TypeOrmErrorsInterceptor } from './interceptors/typeorm-errors.intercep
     AdressesModule,
     MapquestModule,
   ],
-  controllers: [AppController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
       useClass: TypeOrmErrorsInterceptor,
     },
-    AppService,
   ],
 })
 export class AppModule {}

@@ -6,6 +6,8 @@ import { CreateDenunciationDto } from './dto/create-denunciation.dto';
 import { User } from 'src/users/user.entity';
 import { JwtPayload } from 'src/auth/jwt-payload.interface';
 import { AdressesService } from 'src/adresses/adresses.service';
+import { DenunciationResponseDto } from './dto/denunciation-response.dto';
+import { CreateAddressDto } from 'src/adresses/dto/create-address.dto';
 
 @Injectable()
 export class DenunciationsService {
@@ -18,7 +20,7 @@ export class DenunciationsService {
   async create(
     createDenunciationDto: CreateDenunciationDto,
     user: JwtPayload,
-  ): Promise<void> {
+  ): Promise<DenunciationResponseDto> {
     //Pega id do usuario logado
     const userEntity = new User();
     userEntity.id = user.id;
@@ -30,13 +32,24 @@ export class DenunciationsService {
     );
 
     // Salva denuncia
-    const denunciation = this.denunciationsRepository.create({
+    let denunciation = this.denunciationsRepository.create({
       ...createDenunciationDto,
       denunciator: userEntity,
       address,
     });
+    denunciation = await denunciation.save();
 
-    await denunciation.save();
+    // Cria DTO
+    const denunciationResponseDto = new DenunciationResponseDto(
+      denunciation.id,
+      denunciation.title,
+      denunciation.description,
+      denunciation.latitude,
+      denunciation.longitude,
+      CreateAddressDto.build(address),
+    );
+
+    return denunciationResponseDto;
   }
 
   async findByUser(user: JwtPayload) {
