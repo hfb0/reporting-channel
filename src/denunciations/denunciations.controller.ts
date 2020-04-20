@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Body, Post } from '@nestjs/common';
+import { Controller, UseGuards, Body, Post, Get } from '@nestjs/common';
 import { DenunciationsService } from './denunciations.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateDenunciationDto } from './dto/create-denunciation.dto';
@@ -16,5 +16,11 @@ export class DenunciationsController {
     @Body() createDenunciationDto: CreateDenunciationDto,
   ) {
     return await this.denunciationsService.create(createDenunciationDto, user);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async index(@User() user: JwtPayload) {
+    return await this.denunciationsService.findByUser(user);
   }
 }

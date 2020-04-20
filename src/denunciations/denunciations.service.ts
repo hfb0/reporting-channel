@@ -27,4 +27,11 @@ export class DenunciationsService {
 
     await cause.save();
   }
+
+  async findByUser(user: JwtPayload) {
+    return await this.denunciationsRepository.find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      where: { denunciator_id: user.id },
+    });
+  }
 }
