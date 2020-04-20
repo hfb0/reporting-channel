@@ -14,7 +14,6 @@ import {
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
-import { Denunciation } from './denunciation.entity';
 import { DenunciationResponseDto } from './dto/denunciation-response.dto';
 
 @ApiBearerAuth()
@@ -44,9 +43,12 @@ export class DenunciationsController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  @ApiOkResponse({ description: 'Logged user reports' })
+  @ApiOkResponse({
+    description: 'Logged user reports',
+    type: [DenunciationResponseDto],
+  })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  async index(@User() user: JwtPayload): Promise<Denunciation[]> {
+  async index(@User() user: JwtPayload): Promise<DenunciationResponseDto[]> {
     return await this.denunciationsService.findByUser(user);
   }
 }

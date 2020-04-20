@@ -53,9 +53,12 @@ export class DenunciationsService {
   }
 
   async findByUser(user: JwtPayload) {
-    return await this.denunciationsRepository.find({
+    const denunciationsFound = await this.denunciationsRepository.find({
       // eslint-disable-next-line @typescript-eslint/camelcase
       where: { denunciator_id: user.id },
+      relations: ['address'],
     });
+
+    return DenunciationResponseDto.bulidList(denunciationsFound);
   }
 }

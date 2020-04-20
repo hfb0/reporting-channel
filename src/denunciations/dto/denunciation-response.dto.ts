@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CreateAddressDto } from 'src/adresses/dto/create-address.dto';
+import { Denunciation } from '../denunciation.entity';
 
 export class DenunciationResponseDto {
   @ApiProperty({ example: 1 })
@@ -34,5 +35,19 @@ export class DenunciationResponseDto {
     this.latitude = latitude;
     this.longitude = longitude;
     this.address = address;
+  }
+
+  static bulidList(denunciationEntity: Denunciation[]) {
+    return denunciationEntity.map(
+      item =>
+        new DenunciationResponseDto(
+          item.id,
+          item.title,
+          item.description,
+          item.latitude,
+          item.longitude,
+          CreateAddressDto.build(item.address),
+        ),
+    );
   }
 }
