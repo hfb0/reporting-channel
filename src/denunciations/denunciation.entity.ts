@@ -9,6 +9,7 @@ import {
   Entity,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
+import { Address } from 'src/adresses/address.entity';
 
 @Entity()
 export class Denunciation extends BaseEntity {
@@ -40,4 +41,12 @@ export class Denunciation extends BaseEntity {
   )
   @JoinColumn({ name: 'denunciator_id' })
   denunciator: User;
+
+  @ManyToOne(
+    () => Address,
+    address => address.denunciations,
+    { nullable: false },
+  )
+  @JoinColumn({ name: 'address_id' })
+  address: Address;
 }

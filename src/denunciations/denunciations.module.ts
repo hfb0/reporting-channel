@@ -4,9 +4,10 @@ import { DenunciationsService } from './denunciations.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { Denunciation } from './denunciation.entity';
+import { Address } from 'src/adresses/address.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Denunciation, User])],
+  imports: [TypeOrmModule.forFeature([Denunciation, User, Address])],
   controllers: [DenunciationsController],
   providers: [DenunciationsService],
 })
