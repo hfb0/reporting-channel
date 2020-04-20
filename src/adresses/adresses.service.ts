@@ -23,9 +23,11 @@ export class AdressesService {
     const addressDto = await this.mapquestService.findByGeoCode(lat, lon);
 
     // Procura no banco de dados
-    const addressDB = await this.adressesRepository.findOne({where: addressDto});
-    if(addressDB) {
-        return addressDB;
+    const addressDB = await this.adressesRepository.findOne({
+      where: addressDto,
+    });
+    if (addressDB) {
+      return addressDB;
     }
 
     return await this.create(addressDto);
