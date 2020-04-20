@@ -14,7 +14,7 @@ export class Address extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'postal_code', unique: true })
+  @Column({ name: 'postal_code', unique: true, nullable: false })
   postalCode: string;
 
   @Column()

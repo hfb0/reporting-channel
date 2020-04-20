@@ -5,9 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { Denunciation } from './denunciation.entity';
 import { Address } from 'src/adresses/address.entity';
+import { AdressesModule } from 'src/adresses/adresses.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Denunciation, User, Address])],
+  imports: [
+    TypeOrmModule.forFeature([Denunciation, User, Address]),
+    AdressesModule,
+  ],
   controllers: [DenunciationsController],
   providers: [DenunciationsService],
 })

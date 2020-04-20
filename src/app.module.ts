@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { DenunciationsModule } from './denunciations/denunciations.module';
 import { AdressesModule } from './adresses/adresses.module';
+import { MapquestModule } from './mapquest/mapquest.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AdressesModule } from './adresses/adresses.module';
     AuthModule,
     DenunciationsModule,
     AdressesModule,
+    MapquestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -5,27 +5,38 @@ import { Repository } from 'typeorm';
 import { CreateDenunciationDto } from './dto/create-denunciation.dto';
 import { User } from 'src/users/user.entity';
 import { JwtPayload } from 'src/auth/jwt-payload.interface';
+import { AdressesService } from 'src/adresses/adresses.service';
 
 @Injectable()
 export class DenunciationsService {
   constructor(
     @InjectRepository(Denunciation)
     private denunciationsRepository: Repository<Denunciation>,
+    private readonly adressesServices: AdressesService,
   ) {}
 
   async create(
     createDenunciationDto: CreateDenunciationDto,
     user: JwtPayload,
   ): Promise<void> {
+    //Pega id do usuario logado
     const userEntity = new User();
     userEntity.id = user.id;
 
-    const cause = this.denunciationsRepository.create({
+    // Busca endereco
+    const address = await this.adressesServices.getAddressByGeolocation(
+      createDenunciationDto.latitude,
+      createDenunciationDto.longitude,
+    );
+
+    // Salva denuncia
+    const denunciation = this.denunciationsRepository.create({
       ...createDenunciationDto,
       denunciator: userEntity,
+      address,
     });
 
-    await cause.save();
+    await denunciation.save();
   }
 
   async findByUser(user: JwtPayload) {
