@@ -64,3 +64,12 @@ $ yarn test:e2e
 # test coverage
 $ yarn test:cov
 ```
+
+## To-do
+
+- [x] Swagger integration
+- [x] JWT for API authentication
+- [x] MapQuest integration
+- [ ] unit tests
+- [ ] e2e tests 
+- [ ] caching
