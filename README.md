@@ -30,7 +30,7 @@ A simple reporting API using the [Nest](https://github.com/nestjs/nest) framewor
 > To see the api's swagger documentation just access http://running_api_ip/api.
 
 ## Installation
-> If you are using docker-compose this step is not necessary, just install the [docker-compose](https://docs.docker.com/compose/install/).
+> If you are using docker-compose this step is not necessary, just have the [docker-compose](https://docs.docker.com/compose/install/) installed.
 
 ```bash
 $ yarn install
