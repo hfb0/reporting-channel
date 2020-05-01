@@ -30,13 +30,14 @@ A simple reporting API using the [Nest](https://github.com/nestjs/nest) framewor
 > To see the api's swagger documentation just access http://running_api_ip/api.
 
 ## Installation
+> If you are using docker-compose this step is not necessary, just install the [docker-compose](https://docs.docker.com/compose/install/).
 
 ```bash
 $ yarn install
 ```
 
 ## Running the app
-Create a copy of the .env.example file and rename it to .env, now insert data in the .env file and run the project:
+Create a copy of the .env.example file, rename it to .env and remove comments, now insert data in the .env file and run the project:
 
 ```bash
 # development
@@ -49,7 +50,7 @@ $ yarn start:dev
 $ yarn start:prod
 
 # docker-compose
-$ docker-compose up
+$ docker-compose up --build
 ```
 
 ## Test
